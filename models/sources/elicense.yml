@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: ELICENSE_RAW
+    database: DAS
+    schema: DAS_ELICENSE_RAW_DB
+    tables:
+      - name: LICENSE
+      - name: CONTACT
+      - name: ACCOUNT
+      - name: MUSW__LICENSE_PARCEL__C
+      - name: QUALIFIER__C_20250905
