@@ -11,6 +11,11 @@ WITH source AS (
         )
 ),
 
+max_pipeline AS (
+    SELECT MAX(pipeline_start_date) AS max_pipeline_start_date
+    FROM {{ source('ELICENSE_RAW', 'LICENSE') }}
+),
+
 renamed AS (
     SELECT
         id AS license_id,
@@ -130,20 +135,23 @@ latest_per_license_number AS (
 )
 
 SELECT
-    license_id,
-    account_id,
-    contact_id,
-    license_number,
-    type,
-    board_name,
-    hide_from_portal,
-    hide_from_public,
-    status,
-    sub_status,
-    sub_category,
-    business_license,
-    compact_eligibility,
-    compact_eligible_flag,
-    lastmodifieddate
-FROM latest_per_license_number
-WHERE rn_license = 1
+    l.license_id,
+    l.account_id,
+    l.contact_id,
+    l.license_number,
+    l.type,
+    l.board_name,
+    l.hide_from_portal,
+    l.hide_from_public,
+    l.status,
+    l.sub_status,
+    l.sub_category,
+    l.business_license,
+    l.compact_eligibility,
+    l.compact_eligible_flag,
+    m.max_pipeline_start_date,
+    l.lastmodifieddate
+FROM latest_per_license_number l
+CROSS JOIN max_pipeline m
+WHERE l.rn_license = 1
+

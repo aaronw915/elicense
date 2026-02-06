@@ -1,30 +1,30 @@
-with source as (
-    select *
-    from
+WITH source AS (
+    SELECT *
+    FROM
         {{ source('ELICENSE_RAW', 'CONTACT') }}
 ),
 
-renamed as (
-    select
-        id as contact_id,
+renamed AS (
+    SELECT
+        id AS contact_id,
         lastname,
         firstname,
         middlename,
-        contact_suffix__c as suffix,
-        ROW_NUMBER() over (
-            partition by id
-            order by lastmodifieddate desc
-        ) as rn
-    from
+        contact_suffix__c AS suffix,
+        ROW_NUMBER() OVER (
+            PARTITION BY id
+            ORDER BY lastmodifieddate DESC
+        ) AS rn
+    FROM
         source
 )
 
-select
+SELECT
     contact_id,
     lastname,
     firstname,
     middlename,
     suffix
-from
+FROM
     renamed
-where rn = 1
+WHERE rn = 1

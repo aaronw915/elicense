@@ -9,4 +9,5 @@ sources:
       - name: CONTACT
       - name: ACCOUNT
       - name: MUSW__LICENSE_PARCEL__C
-      - name: QUALIFIER__C_20250905
+      - name: QUALIFIER
+      - name: EXTERNAL_RECORD

@@ -1,7 +1,7 @@
 WITH source AS (
     SELECT *
     FROM
-        {{ source('ELICENSE_RAW', 'QUALIFIER__C_20250905') }}
+        {{ source('ELICENSE_RAW', 'QUALIFIER') }}
 ),
 
 renamed AS (
