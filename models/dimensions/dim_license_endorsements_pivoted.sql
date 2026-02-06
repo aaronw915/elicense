@@ -1,5 +1,5 @@
 WITH numbered AS (
-    SELECT
+    SELECT DISTINCT
         endorsement_license_id,
         endorsement_number,
         endorsement_type,
@@ -8,7 +8,6 @@ WITH numbered AS (
         expiration_date,
         row_number() OVER (
             PARTITION BY endorsement_license_id
-            ORDER BY endorsement_id
         ) AS seq
     FROM {{ ref('stg_endorsement') }}
 ),

@@ -58,6 +58,6 @@ models:
 
     marts:
       +materialized: view
-      +tags: ["mart", "elicense", "executive", "tableau"]
+      +tags: ["mart", "elicense", "executive", "tableau","csv-export"]
       +docs:
         node_color: "#D4AF37" # Gold for final data for viz
