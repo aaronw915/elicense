@@ -167,4 +167,5 @@ SELECT
 FROM latest_per_license_number l
 CROSS JOIN max_pipeline m
 WHERE l.rn_license = 1
+and l.hide_from_portal = FALSE
 

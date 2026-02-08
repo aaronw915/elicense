@@ -1,5 +1,5 @@
 WITH licenses AS (
-    SELECT * FROM {{ ref('stg_licenses') }}
+    SELECT * FROM {{ ref('stg_license') }}
     WHERE business_license = TRUE
 ),
 
@@ -8,7 +8,7 @@ accounts AS (
 ),
 
 addresses AS (
-    SELECT * FROM {{ ref('stg_addresses') }}
+    SELECT * FROM {{ ref('stg_address') }}
 ),
 
 prepared_data AS (
@@ -35,9 +35,9 @@ prepared_data AS (
 
 SELECT
     -- Business Naming Logic
-    CASE 
+    CASE
         -- 1. All names are the same
-        WHEN clean_name = clean_dba1 AND clean_name = clean_dba3 
+        WHEN clean_name = clean_dba1 AND clean_name = clean_dba3
             THEN clean_name
 
         -- 2. Name is different from DBA 1

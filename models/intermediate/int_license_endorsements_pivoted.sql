@@ -8,6 +8,7 @@ WITH numbered AS (
         expiration_date,
         row_number() OVER (
             PARTITION BY endorsement_license_id
+            order by issue_date DESC, endorsement_number DESC
         ) AS seq
     FROM {{ ref('stg_endorsement') }}
 ),
