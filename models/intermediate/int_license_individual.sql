@@ -1,5 +1,5 @@
 WITH licenses AS (
-    SELECT * FROM {{ ref('stg_license') }}
+    SELECT * FROM {{ ref('int_license') }}
     WHERE business_license <> TRUE
 ),
 
@@ -70,6 +70,15 @@ prepared_data AS (
     LEFT JOIN contacts c ON l.contact_id = c.contact_id
     LEFT JOIN endorsements e ON l.license_id = e.endorsement_license_id
     LEFT JOIN specialties s ON l.license_id = s.specialty_license_id
+),
+ranked AS (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (
+            PARTITION BY license_number
+            ORDER BY license_effective_date DESC, license_issue_date DESC
+        ) AS rn
+    FROM prepared_data
 )
 
 SELECT
@@ -85,10 +94,10 @@ SELECT
     -- Address Info
     parcel_city,
     parcel_state,
+    parcel_zip_code,
     parcel_county,
     parcel_country,
-    parcel_zip_code,
-
+    
     -- Dates
     license_issue_date,
     license_effective_date,
@@ -207,5 +216,6 @@ SELECT
     med_sub_specialty_10,
     national_cert_organization_10,
     national_cert_expiration_date_10
-FROM prepared_data
-order by licensee_name, license_number
+FROM ranked
+WHERE rn = 1
+ORDER BY licensee_name, license_number
