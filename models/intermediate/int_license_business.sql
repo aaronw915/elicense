@@ -1,6 +1,8 @@
 WITH licenses AS (
     SELECT * FROM {{ ref('stg_license') }}
-    WHERE business_license = TRUE
+    WHERE
+        business_license = TRUE
+        AND hide_from_portal = FALSE
 ),
 
 accounts AS (

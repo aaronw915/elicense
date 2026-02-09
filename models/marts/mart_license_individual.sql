@@ -1,0 +1,1 @@
+SELECT * FROM {{ ref('int_license_individual') }}

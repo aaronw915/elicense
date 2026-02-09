@@ -9,7 +9,7 @@ models:
           - not_null
           - unique
 
-  - name: stg_licenses
+  - name: stg_license
     columns:
       - name: license_id
         data_type: varchar

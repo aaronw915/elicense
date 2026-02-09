@@ -2,8 +2,7 @@ WITH source AS (
     SELECT *
     FROM {{ source('ELICENSE_RAW', 'LICENSE') }}
     WHERE
-        NOT hide_from_public__c
-        AND LOWER(TRIM(musw__status__c)) NOT IN ('pending', 'generate fee')
+        LOWER(TRIM(musw__status__c)) NOT IN ('pending', 'generate fee')
         AND musw__type__c NOT IN (
             'Continuing Education Provider',
             'Dialysis Technician - Temporary (IDT)',
@@ -167,5 +166,4 @@ SELECT
 FROM latest_per_license_number l
 CROSS JOIN max_pipeline m
 WHERE l.rn_license = 1
-and l.hide_from_portal = FALSE
 

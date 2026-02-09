@@ -1,1 +1,1 @@
-select * from {{ref('int_license_business')}}
+SELECT * FROM {{ ref('int_license_business') }}

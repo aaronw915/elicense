@@ -10,6 +10,10 @@ SELECT
     l.license_id,
     CASE
         WHEN l.hide_from_public = TRUE THEN 'HIDDEN'
+        ELSE a.parcel_street_address
+    END AS parcel_street_address,
+    CASE
+        WHEN l.hide_from_public = TRUE THEN 'HIDDEN'
         ELSE a.parcel_city
     END AS parcel_city,
     CASE
@@ -17,7 +21,7 @@ SELECT
         ELSE a.parcel_state
     END AS parcel_state,
     CASE
-        WHEN l.hide_from_public  = TRUE THEN 'HIDDEN'
+        WHEN l.hide_from_public = TRUE THEN 'HIDDEN'
         ELSE a.parcel_county
     END AS parcel_county,
     CASE
