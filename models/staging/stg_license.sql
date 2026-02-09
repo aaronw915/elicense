@@ -16,6 +16,6 @@ SELECT
     musw__issue_date__c AS license_issue_date,
     effective_date__c AS license_effective_date,
     musw__expiration_date__c AS license_expiration_date,
-    licensee_name__c as licensee_name,
+    licensee_name__c AS licensee_name,
     lastmodifieddate
 FROM {{ source('ELICENSE_RAW', 'LICENSE') }}

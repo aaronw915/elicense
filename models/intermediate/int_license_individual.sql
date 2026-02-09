@@ -71,6 +71,7 @@ prepared_data AS (
     LEFT JOIN endorsements e ON l.license_id = e.endorsement_license_id
     LEFT JOIN specialties s ON l.license_id = s.specialty_license_id
 ),
+
 ranked AS (
     SELECT
         *,
@@ -97,7 +98,7 @@ SELECT
     parcel_zip_code,
     parcel_county,
     parcel_country,
-    
+
     -- Dates
     license_issue_date,
     license_effective_date,

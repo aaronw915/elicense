@@ -47,15 +47,17 @@ business_prepared AS (
             WHEN clean_name = clean_dba1 AND clean_name = clean_dba3
                 THEN clean_name
 
-            WHEN clean_name != clean_dba1
-                 AND clean_dba1 IS NOT NULL
-                 AND clean_dba1 <> ''
+            WHEN
+                clean_name != clean_dba1
+                AND clean_dba1 IS NOT NULL
+                AND clean_dba1 != ''
                 THEN clean_name || ' D.B.A ' || clean_dba1
 
-            WHEN clean_name = clean_dba1
-                 AND clean_name != clean_dba3
-                 AND clean_dba3 IS NOT NULL
-                 AND clean_dba3 <> ''
+            WHEN
+                clean_name = clean_dba1
+                AND clean_name != clean_dba3
+                AND clean_dba3 IS NOT NULL
+                AND clean_dba3 != ''
                 THEN clean_name || ' D.B.A ' || clean_dba3
 
             ELSE clean_name
@@ -95,7 +97,24 @@ ranked AS (
     FROM business_prepared
 )
 
-SELECT *
+SELECT
+    business_name,
+    board_name,
+    license_number,
+    type,
+    status,
+    sub_status,
+    sub_category,
+    board_action,
+    parcel_street_address,
+    parcel_city,
+    parcel_state,
+    parcel_zip_code,
+    parcel_county,
+    parcel_country,
+    license_issue_date,
+    license_effective_date,
+    license_expiration_date
 FROM ranked
 WHERE rn = 1
 ORDER BY business_name, license_number

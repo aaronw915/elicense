@@ -1,0 +1,17 @@
+models:
+  - name: mart_license_individual
+    description: "Current, public-facing view of licenses. Exactly one row per license_number."
+    tests:
+      - unique:
+          column_name: license_number
+      - not_null:
+          column_name: license_number
+
+  - name: mart_license_business
+    description: "Current, public-facing view of licenses. Exactly one row per license_number."
+    tests:
+      - unique:
+          column_name: license_number
+      - not_null:
+          column_name: license_number
+
