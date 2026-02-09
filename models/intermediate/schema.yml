@@ -1,0 +1,32 @@
+models:
+  - name: int_license_specialties_pivoted
+    description: >
+      Intermediate model that transforms multiple specialty and certification
+      records per license into a flattened, presentation-ready structure.
+      Each row represents one license, with up to 10 associated medical
+      specialties and national certifications pivoted into fixed columns.
+
+    columns:
+      - name: specialty_license_id
+        description: >
+          License identifier. Exactly one row per license in this model.
+
+      - name: specialty_count
+        description: >
+          Number of specialty/certification records associated with the license
+          prior to pivoting.
+
+      - name: med_specialty_1
+        description: First medical specialty associated with the license.
+      - name: med_specialty_2
+        description: Second medical specialty associated with the license.
+
+    meta:
+      grain: "One row per license"
+      max_specialties: 10
+      notes: >
+        Specialty records are ordered deterministically using a stable sort
+        across specialty and certification attributes. If more than 10
+        specialties exist for a license, only the first 10 are retained.
+        This model is intended for reporting and export use cases and is not
+        suitable for analytic queries requiring unlimited specialty records.

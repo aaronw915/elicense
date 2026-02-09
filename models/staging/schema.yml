@@ -1,0 +1,97 @@
+models:
+  - name: stg_specialty
+    description: >
+      Staging model for medical specialty and certification records associated
+      with licenses. This model represents a lightly cleaned, de-duplicated view
+      of Salesforce External Records and preserves one row per unique
+      specialty/certification combination per license.
+
+    columns:
+      - name: specialty_license_id
+        description: >
+          Foreign key to the license record. Corresponds to LICENSE.id.
+          Records with null license references are excluded.
+
+      - name: med_specialty_type
+        description: >
+          Certifying organization or category for the medical specialty, as
+          provided by the source system.
+
+      - name: med_specialty
+        description: >
+          Primary medical specialty associated with the license.
+
+      - name: med_sub_specialty
+        description: >
+          Sub-specialty or focus area within the primary medical specialty.
+
+      - name: national_certification_organization
+        description: >
+          National certifying organization issuing the specialty certification.
+
+      - name: national_certification_expiration_date
+        description: >
+          Expiration date of the national specialty certification.
+
+      - name: national_certification_specialty
+        description: >
+          Specialty name associated with the national certification.
+
+      - name: national_certification_foci
+        description: >
+          Additional focus areas or sub-specialties related to the certification.
+    
+    
+  - name: int_license_endorsements_pivoted
+    description: >
+          Intermediate model that consolidates multiple endorsement records per
+          license into a single-row, fixed-column structure. Endorsements are
+          deterministically ordered and pivoted into up to ten endorsement slots
+          per license to support reporting and export use cases.
+
+          Certain endorsement numbers (e.g., containing 'CTR' or '(RX)') are
+          intentionally excluded from the endorsement number fields while
+          preserving the associated endorsement metadata.
+
+    meta:
+        grain: "One row per license (endorsement_license_id)"
+        max_endorsements: 10
+        ordering_logic: >
+          Endorsements are ordered by issue date (descending), then endorsement
+          number (descending) to ensure stable and repeatable positioning across
+          runs.
+        filtering_rules: >
+          Endorsement numbers containing 'CTR' or '(RX)' are set to NULL to
+          prevent controlled or prescription-related identifiers from appearing
+          in downstream outputs.
+        intended_use: >
+          Reporting and data export. Not intended for analytical workloads
+          requiring unlimited or fully normalized endorsement records.
+
+    columns:
+      - name: endorsement_license_id
+        description: >
+          Foreign key to the license record. Exactly one row per license in this
+          model.
+
+      - name: endorsement_count
+        description: >
+          Total number of endorsement records associated with the license prior
+          to pivoting.
+
+      - name: endorsement_number_1
+        description: Primary endorsement number for the license.
+      - name: endorsement_number_2
+        description: Secondary endorsement number for the license.
+      - name: endorsement_number_3
+        description: Tertiary endorsement number for the license.
+      # (Remaining endorsement_number_* columns follow the same pattern)
+
+      - name: endorsement_type_1
+        description: Type associated with the first endorsement.
+      - name: endorsement_status_1
+        description: Status of the first endorsement.
+      - name: endorsement_issue_date_1
+        description: Issue date of the first endorsement.
+      - name: endorsement_expiration_date_1
+        description: Expiration date of the first endorsement.
